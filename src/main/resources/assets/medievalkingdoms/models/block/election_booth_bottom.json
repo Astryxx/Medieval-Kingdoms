@@ -1,0 +1,70 @@
+{
+  "credit": "Made with Blockbench",
+  "ambientocclusion": true,
+  "textures": {
+    "3": "medievalkingdoms:block/election_booth_bottom_panel",
+    "particle": "medievalkingdoms:block/election_booth_bottom_panel"
+  },
+  "elements": [
+    {
+      "from": [14, 0, 0],
+      "to": [16, 16, 15.99],
+      "faces": {
+        "north": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "east": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "south": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "west": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "up": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "down": {"uv": [12, 0, 16, 16], "texture": "#3"}
+      }
+    },
+    {
+      "from": [0.001, 0, 14],
+      "to": [15.991, 16, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "east": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "south": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "west": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "up": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "down": {"uv": [12, 0, 16, 16], "texture": "#3"}
+      }
+    },
+    {
+      "from": [0, 0, 0],
+      "to": [2, 16, 15.99],
+      "faces": {
+        "north": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "east": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "south": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "west": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "up": {"uv": [12, 0, 16, 16], "texture": "#3"},
+        "down": {"uv": [12, 0, 16, 16], "texture": "#3"}
+      }
+    },
+    {
+      "from": [2, 14, 0],
+      "to": [14, 16, 14],
+      "faces": {
+        "north": {"uv": [0, 0, 12.5, 2], "texture": "#3"},
+        "east": {"uv": [0, 0, 12.5, 2], "texture": "#3"},
+        "south": {"uv": [0, 0, 12.5, 2], "texture": "#3"},
+        "west": {"uv": [0, 0, 12.5, 2], "texture": "#3"},
+        "up": {"uv": [0, 0, 12.5, 16], "texture": "#3"},
+        "down": {"uv": [0, 0, 12.5, 16], "texture": "#3"}
+      }
+    },
+    {
+      "from": [2, 8, 0],
+      "to": [14, 14, 2],
+      "faces": {
+        "north": {"uv": [0, 10, 12.5, 16], "texture": "#3"},
+        "east": {"uv": [0, 0, 2, 6], "texture": "#3"},
+        "south": {"uv": [0, 10, 12.5, 16], "texture": "#3"},
+        "west": {"uv": [0, 0, 2, 6], "texture": "#3"},
+        "up": {"uv": [0, 0, 12.5, 2], "texture": "#3"},
+        "down": {"uv": [0, 0, 12.5, 2], "texture": "#3"}
+      }
+    }
+  ]
+}

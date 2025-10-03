@@ -1,0 +1,33 @@
+{
+  "variants": {
+    "facing=north,depth_part=0,height_part=0,width_part=1": {
+      "model": "medievalkingdoms:block/royal_throne_anchor",
+      "y": 0
+    },
+    "facing=east,depth_part=0,height_part=0,width_part=1": {
+      "model": "medievalkingdoms:block/royal_throne_anchor",
+      "y": 90
+    },
+    "facing=south,depth_part=0,height_part=0,width_part=1": {
+      "model": "medievalkingdoms:block/royal_throne_anchor",
+      "y": 180
+    },
+    "facing=west,depth_part=0,height_part=0,width_part=1": {
+      "model": "medievalkingdoms:block/royal_throne_anchor",
+      "y": 270
+    },
+
+    "depth_part=0,height_part=0,width_part=0": { "model": "minecraft:block/air" },
+    "depth_part=0,height_part=0,width_part=2": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=0,width_part=0": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=0,width_part=1": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=0,width_part=2": { "model": "minecraft:block/air" },
+
+    "depth_part=0,height_part=1,width_part=0": { "model": "minecraft:block/air" },
+    "depth_part=0,height_part=1,width_part=1": { "model": "minecraft:block/air" },
+    "depth_part=0,height_part=1,width_part=2": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=1,width_part=0": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=1,width_part=1": { "model": "minecraft:block/air" },
+    "depth_part=1,height_part=1,width_part=2": { "model": "minecraft:block/air" }
+  }
+}

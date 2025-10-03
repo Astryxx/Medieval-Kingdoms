@@ -1,0 +1,8 @@
+{
+  "processors": [
+    {
+      "kingdom_theme": "Nordic",
+      "processor_type": "medievalkingdoms:kingdom_processor"
+    }
+  ]
+}

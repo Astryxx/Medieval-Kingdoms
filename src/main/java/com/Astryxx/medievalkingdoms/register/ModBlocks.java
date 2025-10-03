@@ -9,9 +9,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import com.Astryxx.medievalkingdoms.world.block.RoyalThroneBlock;
-import com.Astryxx.medievalkingdoms.world.block.BankerDeskBlock; // NEW IMPORT placeholder
-import com.Astryxx.medievalkingdoms.world.block.ElectionBoothBlock; // NEW IMPORT placeholder
-import com.Astryxx.medievalkingdoms.world.block.LawBoardBlock; // ADDED IMPORT
+import com.Astryxx.medievalkingdoms.world.block.BankerDeskBlock;
+import com.Astryxx.medievalkingdoms.world.block.ElectionBoothBlock;
+import com.Astryxx.medievalkingdoms.world.block.LawBoardBlock;
 import com.Astryxx.medievalkingdoms.world.block.ForgeryBoardBlock; // ADDED IMPORT
 
 /**
@@ -31,7 +31,7 @@ public class ModBlocks {
 
     // 2. LAW BOARD (Two-block high structure)
     public static final RegistryObject<Block> LAW_BOARD = BLOCKS.register("law_board",
-            () -> new LawBoardBlock(BlockBehaviour.Properties.of() // FIXED: Using LawBoardBlock
+            () -> new LawBoardBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WOOD)
                     .strength(3.0F)
                     .noOcclusion() // Added for VoxelShape rendering
@@ -51,11 +51,11 @@ public class ModBlocks {
                     .strength(3.0F)
                     .sound(SoundType.WOOD)));
 
-    // 5. FORGERY TABLE (Single block - using custom block)
-    public static final RegistryObject<Block> FORGERY_TABLE = BLOCKS.register("forgery_table",
+    // 5. FORGERY TABLE/BOARD (Single block - using custom block)
+    public static final RegistryObject<Block> FORGERY_BOARD = BLOCKS.register("forgery_board",
             () -> new ForgeryBoardBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_GRAY)
                     .strength(2.0F)
-                    .noOcclusion() // 👈 CRITICAL FIX: Add this property
+                    .noOcclusion() // CRITICAL: Add this property for blocks with non-full shapes
                     .sound(SoundType.WOOD)));
 }

@@ -1,6 +1,6 @@
 {
   "credit": "Made with Blockbench",
-  "ambientocclusion": true,
+  "ambientocclusion": false,
   "textures": {
     "1": "block/red_wool",
     "2": "block/gold_block",

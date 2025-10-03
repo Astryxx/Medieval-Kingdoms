@@ -26,15 +26,23 @@ public class ElectionBoothBlock extends HorizontalDirectionalBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<Half> HALF = EnumProperty.create("half", Half.class);
 
-    // VoxelShape for the bottom half (legs and counter). Defined assuming FACING=NORTH.
+    // VoxelShape for the bottom half (legs, counter, and bottom panels).
+    // Defined assuming FACING=NORTH, matching the boxes in election_booth_bottom.json.
     protected static final VoxelShape BOOTH_BOTTOM_SHAPE_NORTH = Shapes.or(
-            Block.box(0, 15, 0, 16, 16, 16), // Counter top
-            Block.box(0, 0, 0, 2, 16, 2),   // Leg 1
-            Block.box(14, 0, 0, 16, 16, 2),  // Leg 2
-            Block.box(0, 0, 14, 2, 16, 16),  // Leg 3
-            Block.box(14, 0, 14, 16, 16, 16) // Leg 4
+            // Element 1 (Right Panel - Front to Back)
+            Block.box(14.0D, 0.0D, 0.0D, 16.0D, 16.0D, 15.99D),
+            // Element 2 (Back Panel - Left to Right)
+            Block.box(0.001D, 0.0D, 14.0D, 15.991D, 16.0D, 16.0D),
+            // Element 3 (Left Panel - Front to Back)
+            Block.box(0.0D, 0.0D, 0.0D, 2.0D, 16.0D, 15.99D),
+            // Element 4 (Counter Top/Shelf - excluding 2-wide sides)
+            Block.box(2.0D, 14.0D, 0.0D, 14.0D, 16.0D, 14.0D),
+            // Element 5 (Inner Front Panel)
+            Block.box(2.0D, 8.0D, 0.0D, 14.0D, 14.0D, 2.0D)
     );
+
     // VoxelShape for the top half (full block collision for stability)
+    // The top model elements (walls, roof) appear to fill the entire block, so this is correct.
     protected static final VoxelShape BOOTH_TOP_SHAPE = Shapes.block();
 
     public ElectionBoothBlock(Properties properties) {
@@ -61,7 +69,8 @@ public class ElectionBoothBlock extends HorizontalDirectionalBlock {
     }
 
     /**
-     * Performs VoxelShape rotation around the Y-axis using the supported 2D axis value.
+     * Performs VoxelShape rotation around the Y-axis (90 degrees clockwise).
+     * FIXED: Corrected the X/Z coordinate swapping and inversion for proper rotation.
      */
     protected static VoxelShape rotateY(VoxelShape pShape, Direction direction) {
         if (direction == Direction.NORTH) return pShape;
@@ -73,7 +82,11 @@ public class ElectionBoothBlock extends HorizontalDirectionalBlock {
 
         for (int i = 0; i < times; i++) {
             buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
-                    buffer[1] = Shapes.or(buffer[1], Block.box(16 - maxZ, minY, minX, 16 - minZ, maxY, maxX)));
+                    // Correct 90-degree clockwise rotation (North -> East):
+                    // new minX = minZ, new maxX = maxZ
+                    // new minZ = 16 - maxX, new maxZ = 16 - minX
+                    buffer[1] = Shapes.or(buffer[1],
+                            Block.box(minZ, minY, 16 - maxX, maxZ, maxY, 16 - minX)));
             buffer[0] = buffer[1];
             buffer[1] = Shapes.empty();
         }

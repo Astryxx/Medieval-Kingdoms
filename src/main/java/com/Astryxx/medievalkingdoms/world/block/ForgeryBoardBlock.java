@@ -21,11 +21,12 @@ public class ForgeryBoardBlock extends HorizontalDirectionalBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     // VoxelShape for the table stand (North orientation)
+    // Coordinates match the Blockbench model (in sixteenths of a block: 0.0D to 16.0D)
     protected static final VoxelShape FORGERY_BOARD_SHAPE_NORTH = Shapes.or(
-            Block.box(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), // Base
-            Block.box(7.0D, 1.0D, 7.0D, 9.0D, 13.0D, 9.0D),  // Leg/Post
-            Block.box(6.0D, 13.0D, 6.0D, 10.0D, 15.0D, 10.0D), // Top Support
-            Block.box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D) // Top Plate
+            Block.box(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), // Base (Y: 0-1)
+            Block.box(7.0D, 1.0D, 7.0D, 9.0D, 13.0D, 9.0D),  // Leg/Post (Y: 1-13)
+            Block.box(6.0D, 13.0D, 6.0D, 10.0D, 15.0D, 10.0D), // Top Support (Y: 13-15)
+            Block.box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D) // Top Plate (Y: 15-16)
     );
 
     public ForgeryBoardBlock(Properties properties) {
@@ -62,18 +63,24 @@ public class ForgeryBoardBlock extends HorizontalDirectionalBlock {
 
 
     /**
-     * Performs VoxelShape rotation around the Y-axis.
+     * Performs VoxelShape rotation around the Y-axis (90 degrees clockwise).
+     * The rotation logic is fixed here to correctly swap and invert the X and Z coordinates.
      */
     protected static VoxelShape rotateY(VoxelShape shape, Direction direction) {
         if (direction == Direction.NORTH) return shape;
 
         VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
-        int times = direction.get2DDataValue();
+        int times = direction.get2DDataValue(); // 0=N, 1=E, 2=S, 3=W
 
         for (int i = 0; i < times; i++) {
             buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
                     buffer[1] = Shapes.or(buffer[1],
-                            Block.box(16 - maxZ, minY, minX, 16 - minZ, maxY, maxX)));
+                            // Correct 90-degree clockwise rotation (North -> East):
+                            // new minX = minZ
+                            // new maxX = maxZ
+                            // new minZ = 16 - maxX
+                            // new maxZ = 16 - minX
+                            Block.box(minZ, minY, 16 - maxX, maxZ, maxY, 16 - minX)));
             buffer[0] = buffer[1];
             buffer[1] = Shapes.empty();
         }

@@ -31,5 +31,5 @@ public class ModItems {
 
     public static final RegistryObject<Item> ELECTION_BOOTH = registerBlockItem("election_booth", ModBlocks.ELECTION_BOOTH);
 
-    public static final RegistryObject<Item> FORGERY_TABLE = registerBlockItem("forgery_table", ModBlocks.FORGERY_TABLE);
+    public static final RegistryObject<Item> FORGERY_BOARD = registerBlockItem("forgery_board", ModBlocks.FORGERY_BOARD);
 }

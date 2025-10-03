@@ -37,17 +37,28 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
     public static final IntegerProperty HEIGHT_PART = IntegerProperty.create("height_part", 0, 1);
     public static final IntegerProperty DEPTH_PART = IntegerProperty.create("depth_part", 0, 1);
 
-
-    private static final int THRONE_HEIGHT = 2;
-    private static final int THRONE_DEPTH = 2;
-    private static final int THRONE_WIDTH = 3;
+    private static final int THRONE_HEIGHT = 2; // 2 blocks tall
+    private static final int THRONE_DEPTH = 2;  // 2 blocks deep
+    private static final int THRONE_WIDTH = 3;   // 3 blocks wide
     private static final int SEAT_DURATION = 999999;
 
-    // VoxelShape for the anchor block (Center, Bottom, Front). Defined assuming FACING=NORTH.
-    protected static final VoxelShape THRONE_ANCHOR_SHAPE_NORTH = Shapes.or(
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), // Solid seat base (extended to z=0)
-            Block.box(1.0D, 8.0D, 3.0D, 15.0D, 9.0D, 16.0D)   // Cushion
-    );
+    // --- VoxelShape Definitions ---
+
+    // The VoxelShape for the anchor block (Center, Bottom, Front), covering the local seat area.
+    private static final VoxelShape THRONE_FULL_SHAPE_NORTH;
+
+    static {
+        // Define VoxelShapes for the parts that fall within the anchor block's 16x16x16 space.
+        THRONE_FULL_SHAPE_NORTH = Shapes.or(
+                // Seat Base [0, 0, 4] to [16, 8, 16]
+                Block.box(0.0D, 0.0D, 4.0D, 16.0D, 8.0D, 16.0D),
+                // Cushion [1, 8, 3] to [15, 9, 16]
+                Block.box(1.0D, 8.0D, 3.0D, 15.0D, 9.0D, 16.0D),
+                // Back Cushion (Anchor part): Y=9 to 16, Z=15 to 16
+                Block.box(1.0D, 9.0D, 15.0D, 15.0D, 16.0D, 16.0D)
+        );
+    }
+
 
     public RoyalThroneBlock(Properties properties) {
         super(properties);
@@ -63,22 +74,41 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
         builder.add(FACING, WIDTH_PART, HEIGHT_PART, DEPTH_PART);
     }
 
+    // --- Collision and Selection Shape ---
+
     @Override
     @SuppressWarnings("deprecation")
     @NotNull
     public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        // Only return the custom shape for the designated anchor block (Center, Bottom, Front)
-        if (state.getValue(WIDTH_PART) == 1 && state.getValue(HEIGHT_PART) == 0 && state.getValue(DEPTH_PART) == 0) {
-            Direction facing = state.getValue(FACING);
-            return rotateY(THRONE_ANCHOR_SHAPE_NORTH, facing);
+        // For visual selection, we use the collision shape.
+        return getCollisionShape(state, level, pos, context);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    @NotNull
+    public VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+
+        Direction facing = state.getValue(FACING);
+        int widthPart = state.getValue(WIDTH_PART);
+        int heightPart = state.getValue(HEIGHT_PART);
+        int depthPart = state.getValue(DEPTH_PART);
+
+        // The custom collision shape is ONLY defined on the Anchor block (Center, Bottom, Front: 1, 0, 0).
+        if (widthPart == 1 && heightPart == 0 && depthPart == 0) {
+            // Anchor block returns the custom VoxelShape for the seating area.
+            return rotateY(THRONE_FULL_SHAPE_NORTH, facing);
         }
 
-        // Non-anchor parts must return an empty shape to prevent collision issues
+        // All other 11 parts of the throne return an empty collision shape.
+        // The model's rendering handles the visual, and the custom shape on the anchor handles the functional collision.
         return Shapes.empty();
     }
 
+    // --- VoxelShape Rotation (FIXED) ---
+
     /**
-     * Performs VoxelShape rotation around the Y-axis using the supported 2D axis value.
+     * Performs VoxelShape rotation around the Y-axis (90 degrees clockwise).
      */
     protected static VoxelShape rotateY(VoxelShape pShape, Direction direction) {
         if (direction == Direction.NORTH) return pShape;
@@ -90,7 +120,11 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
 
         for (int i = 0; i < times; i++) {
             buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
-                    buffer[1] = Shapes.or(buffer[1], Block.box(16 - maxZ, minY, minX, 16 - minZ, maxY, maxX)));
+                    // Correct 90-degree clockwise rotation (North -> East):
+                    // new minX = minZ, new maxX = maxZ
+                    // new minZ = 16 - maxX, new maxZ = 16 - minX
+                    buffer[1] = Shapes.or(buffer[1],
+                            Block.box(minZ, minY, 16 - maxX, maxZ, maxY, 16 - minX)));
             buffer[0] = buffer[1];
             buffer[1] = Shapes.empty();
         }
@@ -150,6 +184,7 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
                             .relative(facing.getOpposite(), i)
                             .relative(widthDir.getOpposite(), j - 1);
 
+                    // Check if the space is air or replaceable.
                     if (!level.getBlockState(checkPos).canBeReplaced()) {
                         return false;
                     }
@@ -216,7 +251,11 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return ModBlockEntities.THRONE_BE.get().create(pPos, pState);
+        // Only the anchor block (Center, Bottom, Front) should host the Block Entity.
+        if (pState.getValue(WIDTH_PART) == 1 && pState.getValue(HEIGHT_PART) == 0 && pState.getValue(DEPTH_PART) == 0) {
+            return ModBlockEntities.THRONE_BE.get().create(pPos, pState);
+        }
+        return null;
     }
 
     @Override
@@ -231,7 +270,6 @@ public class RoyalThroneBlock extends HorizontalDirectionalBlock implements Enti
         // Check if it's the seat part (Anchor block: Center, Bottom, Front)
         if (state.getValue(WIDTH_PART) == 1 && state.getValue(DEPTH_PART) == 0 && state.getValue(HEIGHT_PART) == 0) {
             if (level.getBlockEntity(pos) != null && player.getPassengers().isEmpty()) {
-                // Extracted method to fix complexity warning
                 spawnSeatEntity(level, pos, state.getValue(FACING), player);
                 return InteractionResult.CONSUME;
             }

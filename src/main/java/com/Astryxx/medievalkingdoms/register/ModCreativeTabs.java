@@ -28,7 +28,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.LAW_BOARD.get());
                         output.accept(ModItems.BANKER_DESK.get());
                         output.accept(ModItems.ELECTION_BOOTH.get()); // NEW
-                        output.accept(ModItems.FORGERY_TABLE.get()); // NEW
+                        output.accept(ModItems.FORGERY_BOARD.get()); // NEW
                     })
                     .build()
     );

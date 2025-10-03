@@ -1,0 +1,8 @@
+{
+  "processors": [
+    {
+      "kingdom_theme": "Moorish",
+      "processor_type": "medievalkingdoms:kingdom_processor"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "facing=north,half=bottom": { "model": "medievalkingdoms:block/law_board_bottom", "y": 0 },
+    "facing=south,half=bottom": { "model": "medievalkingdoms:block/law_board_bottom", "y": 180 },
+    "facing=east,half=bottom": { "model": "medievalkingdoms:block/law_board_bottom", "y": 270 },
+    "facing=west,half=bottom": { "model": "medievalkingdoms:block/law_board_bottom", "y": 90 },
+
+    "facing=north,half=top": { "model": "medievalkingdoms:block/law_board_top", "y": 0 },
+    "facing=south,half=top": { "model": "medievalkingdoms:block/law_board_top", "y": 180 },
+    "facing=east,half=top": { "model": "medievalkingdoms:block/law_board_top", "y": 270 },
+    "facing=west,half=top": { "model": "medievalkingdoms:block/law_board_top", "y": 90 }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "processors": [
+    {
+      "kingdom_theme": "Byzantine",
+      "processor_type": "medievalkingdoms:kingdom_processor"
+    }
+  ]
+}

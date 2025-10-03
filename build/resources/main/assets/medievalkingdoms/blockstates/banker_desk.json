@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "facing=north,part=center": { "model": "medievalkingdoms:block/banker_desk_center", "y": 0 },
+    "facing=east,part=center": { "model": "medievalkingdoms:block/banker_desk_center", "y": 90 },
+    "facing=south,part=center": { "model": "medievalkingdoms:block/banker_desk_center", "y": 180 },
+    "facing=west,part=center": { "model": "medievalkingdoms:block/banker_desk_center", "y": 270 },
+
+    "facing=north,part=left": { "model": "medievalkingdoms:block/banker_desk_side", "y": 0 },
+    "facing=east,part=left": { "model": "medievalkingdoms:block/banker_desk_side", "y": 90 },
+    "facing=south,part=left": { "model": "medievalkingdoms:block/banker_desk_side", "y": 180 },
+    "facing=west,part=left": { "model": "medievalkingdoms:block/banker_desk_side", "y": 270 },
+
+    "facing=north,part=right": { "model": "medievalkingdoms:block/banker_desk_side", "y": 180 },
+    "facing=east,part=right": { "model": "medievalkingdoms:block/banker_desk_side", "y": 270 },
+    "facing=south,part=right": { "model": "medievalkingdoms:block/banker_desk_side", "y": 0 },
+    "facing=west,part=right": { "model": "medievalkingdoms:block/banker_desk_side", "y": 90 }
+  }
+}
